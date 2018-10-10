@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {MessageService} from '../message.service';
 
 @Component({
   selector: 'app-messages',
@@ -9,7 +10,7 @@ export class MessagesComponent implements OnInit {
 
   title = 'dahua';
 
-  constructor() {
+  constructor(public messageService: MessageService) {
   }
 
   ngOnInit() {
