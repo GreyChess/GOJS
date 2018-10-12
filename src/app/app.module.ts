@@ -12,6 +12,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
 import {HttpClientModule} from '@angular/common/http';
+import {UnlessDirective} from './unless.directive';
+import {ExponentialStrengthPipe} from './pipeUtil/exponential-strength.pipe';
+import {PowerBoostCalculatorComponent} from './testComponent/power-boost-calculator.component';
+import {FlyingHeroesComponent} from './testComponent/flying-heroes.component';
+import {FlyingHeroesPipe} from './pipeUtil/flying-heroes.pipe';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HeroListBasicComponent} from './testComponent/hero-list-basic.component';
 
 @NgModule({
   declarations: [
@@ -19,16 +26,26 @@ import {HttpClientModule} from '@angular/common/http';
     HeroesComponent,
     HeroDetailComponent,
     MessagesComponent,
-    DashboardComponent
+    DashboardComponent,
+    UnlessDirective,
+    ExponentialStrengthPipe,
+    PowerBoostCalculatorComponent,
+    FlyingHeroesComponent,
+    FlyingHeroesPipe,
+    HeroListBasicComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false}
     )
+  ],
+  exports: [
+
   ],
   providers: [],
   bootstrap: [AppComponent]
