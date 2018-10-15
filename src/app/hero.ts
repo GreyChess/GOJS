@@ -1,5 +1,5 @@
 export class Hero {
-  constructor(public name: string, public state='inactive'){
+  constructor(public id: number, public name: string, public state='inactive'){
 
   }
   toggleState(){
