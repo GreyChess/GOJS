@@ -65,6 +65,10 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
         background: rgba(255, 255, 255, .2);
         margin: 16px;
       }
+      
+      nz-layout {
+        height: 100%;
+      }
     `
   ]
 })
