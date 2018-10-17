@@ -165,8 +165,8 @@ export class NodeTemplates {
     );
 
     let textBlock = goMaker(
-      go.TextBlock,
-      new go.Binding('text', 'text')
+      go.TextBlock
+      // new go.Binding('text', 'text')
     );
     return goMaker(go.Panel,
       'Spot',
