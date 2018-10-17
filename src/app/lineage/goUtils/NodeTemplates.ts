@@ -16,13 +16,17 @@ export class NodeTemplates {
 
   private _gojsDiagram: GoJSDiagram;
 
-  private _onClick: Function;
-  private _onMouseHoverNode: Function;
-  private _onMouseLeave: Function;
+  private _onClick: Function = ()=>{};
+  private _onMouseHoverNode: Function = ()=>{};
+  private _onMouseLeave: Function = ()=>{};
+
+  constructor(){
+
+  }
 
   public getNodeTemplateMap(): go.Map<string, go.Node> {
     let templateMap: go.Map<string, go.Node> = new go.Map<string, go.Node>();
-    let normalNodeTemplate = this.getTemplate(this.createDefaultIconContainer(), this.createDefaultSelectionIndictor());
+    let normalNodeTemplate = this.getTemplate(this.createDefaultIconContainer(), this.createDefaultSelectionIndicator());
     templateMap.add('', normalNodeTemplate);
     return templateMap;
   }
@@ -36,7 +40,7 @@ export class NodeTemplates {
     return self.createContainer('RoundedRectangle', props, self.createDefaultIcon());
   }
 
-  private createDefaultSelectionIndictor() {
+  private createDefaultSelectionIndicator() {
     let indicatorCornerRadius = 3;
     return goMaker(
       go.Adornment,
@@ -60,7 +64,7 @@ export class NodeTemplates {
       go.Shape,
       {
         geometryString: mockIconSvg,
-        desiredSize: new go.Size(10, 10),
+        desiredSize: new go.Size(40, 40),
         scale: 1.75,
         fill: '#fff',
         strokeWidth: 0
@@ -74,8 +78,8 @@ export class NodeTemplates {
 
   private createContainer(shape: string, props: Map<string, any>, iconHolder) {
     let self = this;
-    let width = 20;
-    let height = 20;
+    let width = 40;
+    let height = 40;
     let panelFill: Color = '#fff';
     let textBlockStroke: Color = '#646464';
     let nodeOutlineInSelect: Color = '#000';
@@ -165,12 +169,13 @@ export class NodeTemplates {
       new go.Binding('text', 'text')
     );
     return goMaker(go.Panel,
-      'spot',
+      'Spot',
       mouseBehavior,
       containerOutline,
       contentOutline,
       selectedOutline,
-      textBlock
+      textBlock,
+      iconHolder
     );
   };
 

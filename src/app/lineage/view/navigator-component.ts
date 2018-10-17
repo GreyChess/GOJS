@@ -1,4 +1,10 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import {Component, TemplateRef, ViewChild} from '@angular/core';
+import {OnInit} from '@angular/core';
+import {GoDiagramUtils} from '../goUtils/GoDiagramUtils';
+import {GoJSDiagram} from '../goUtils/IGoJDDiagram';
+import * as go from 'gojs';
+import {NodeTemplates} from '../goUtils/NodeTemplates';
+import {DEMONODES} from '../mockData/mock-node-data';
 
 @Component({
   selector: 'nz-demo-layout-custom-trigger',
@@ -28,14 +34,15 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
       </nz-sider>
       <nz-layout>
         <nz-header style="background: #fff; padding:0;">
-          <i class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed" (click)="isCollapsed=!isCollapsed"></i>
+          <i class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed"
+             (click)="isCollapsed=!isCollapsed"></i>
         </nz-header>
         <nz-content style="margin:0 16px;">
           <nz-breadcrumb style="margin:16px 0;">
             <nz-breadcrumb-item>User</nz-breadcrumb-item>
             <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
           </nz-breadcrumb>
-          <div style="padding:24px; background: #fff; min-height: 360px;">
+          <div style="padding:24px; background: #fff; min-height: 360px;" id="goDiagramDiv">
             Bill is a cat.
           </div>
         </nz-content>
@@ -46,8 +53,8 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
       <i class="anticon anticon-up"></i>
     </ng-template>
   `,
-  styles  : [
-    `
+  styles: [
+      `
       :host ::ng-deep .trigger {
         font-size: 18px;
         line-height: 64px;
@@ -65,20 +72,31 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
         background: rgba(255, 255, 255, .2);
         margin: 16px;
       }
-      
+
       nz-layout {
         height: 100%;
       }
     `
   ]
 })
-export class NzDemoLayoutCustomTriggerComponent {
+export class NzDemoLayoutCustomTriggerComponent implements OnInit {
   isCollapsed = false;
   triggerTemplate = null;
+  goDiagram: GoJSDiagram;
+  demoNodeArray = DEMONODES;
   @ViewChild('trigger') customTrigger: TemplateRef<void>;
 
   /** custom trigger can be TemplateRef **/
   changeTrigger(): void {
     this.triggerTemplate = this.customTrigger;
   }
+
+  ngOnInit(): void {
+    this.goDiagram = GoDiagramUtils.createDiagram('goDiagramDiv');
+    this.goDiagram.model = new go.GraphLinksModel(this.demoNodeArray,
+      [{from: '1', to: '2'}]);
+    this.goDiagram.nodeTemplateMap = new NodeTemplates().getNodeTemplateMap();
+  }
+
+
 }
