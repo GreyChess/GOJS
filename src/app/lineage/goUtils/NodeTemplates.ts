@@ -4,6 +4,8 @@ import * as go from 'gojs';
 type Color = string;
 let goMaker: Function = go.GraphObject.make;
 let mockIconSvg = 'M 9 6 h 2 V 5 h 3 v 3 h -3 V 7 H 9 v 0.643 L 11.593 10 H 14 v 3 h -3 v -2.188 L 7.907 8 H 6.093 L 3 10.812 V 13 H 0 v -3 h 2.407 L 5 7.643 V 7 H 3 v 1 H 0 V 5 h 3 v 1 h 2 v -0.643 L 2.407 3 H 0 V 0 h 3 v 2.188 L 6.093 5 h 1.814 L 11 2.188 V 0 h 3 v 3 h -2.407 L 9 5.357 V 6 Z';
+const NODE_RECTANGLE_SIZE = 50;
+const GOBinding = go.Binding;
 
 export class NodeTemplates {
   get gojsDiagram(): GoJSDiagram {
@@ -16,11 +18,14 @@ export class NodeTemplates {
 
   private _gojsDiagram: GoJSDiagram;
 
-  private _onClick: Function = ()=>{};
-  private _onMouseHoverNode: Function = ()=>{};
-  private _onMouseLeave: Function = ()=>{};
+  private _onClick: Function = () => {
+  };
+  private _onMouseHoverNode: Function = () => {
+  };
+  private _onMouseLeave: Function = () => {
+  };
 
-  constructor(){
+  constructor() {
 
   }
 
@@ -33,7 +38,7 @@ export class NodeTemplates {
 
   private createDefaultIconContainer() {
     let self = this;
-    let indicatorCornerRadius: number = 3;
+    let indicatorCornerRadius = 3;
     let props: Map<string, any> = new Map<string, any>();
     props.set('parameter1', indicatorCornerRadius);
 
@@ -64,22 +69,23 @@ export class NodeTemplates {
       go.Shape,
       {
         geometryString: mockIconSvg,
-        desiredSize: new go.Size(40, 40),
+        desiredSize: new go.Size(16, 16),
         scale: 1.75,
-        fill: '#fff',
+        fill: "black", //'#3D4550'
+        stroke: "black", //'#3D4550'
         strokeWidth: 0
       },
-      new go.Binding('geometryString', 'contentType', function (type) {
-        //need to handle the real type.
-        return mockIconSvg;
-      })
+      // new GOBinding('geometryString', 'contentType', function (type) {
+      //   //need to handle the real type.
+      //   return mockIconSvg;
+      // })
     );
   }
 
   private createContainer(shape: string, props: Map<string, any>, iconHolder) {
     let self = this;
-    let width = 40;
-    let height = 40;
+    let width = NODE_RECTANGLE_SIZE;
+    let height = NODE_RECTANGLE_SIZE;
     let panelFill: Color = '#fff';
     let textBlockStroke: Color = '#646464';
     let nodeOutlineInSelect: Color = '#000';
@@ -121,29 +127,32 @@ export class NodeTemplates {
 
     let containerOutline = goMaker(go.Shape,
       shape,
+      {
+        fill: '#EAF6FF'
+      },
       containerProps
-      // new go.Binding("stroke", "", jQuery.proxy(self.getStrokeColor, self)),
-      // new go.Binding("fill", "", self.getFillColor)
+      // new GOBinding("stroke", "", jQuery.proxy(self.getStrokeColor, self)),
+      // new GOBinding("fill", "", self.getFillColor)
     );
 
     let selectedOutline = goMaker(go.Shape,
       shape,
       selIndicatorProps
-      // new go.Binding("strokeDashArray", "", function(node) {
+      // new GOBinding("strokeDashArray", "", function(node) {
       //   if (node.isSelected) {
       //     return null;
       //   } else if (node.data.isFocus) {
       //     return [4, 4]
       //   }
       // }).ofObject(""),
-      // new go.Binding("stroke", "", function(node) {
+      // new GOBinding("stroke", "", function(node) {
       //   if (node.isSelected) {
       //     return nodeOutlineInSelect;
       //   } else if (node.data.isFocus) {
       //     return nodeOutlineInFocus;
       //   } else return "rgba(0,0,0,0)";
       // }).ofObject(""),
-      // new go.Binding("strokeWidth", "", function(node){
+      // new GOBinding("strokeWidth", "", function(node){
       //   let result = 1.5;
       //   if(node.isSelected && node.data.isFocus){
       //     result = 3;
@@ -166,7 +175,7 @@ export class NodeTemplates {
 
     let textBlock = goMaker(
       go.TextBlock
-      // new go.Binding('text', 'text')
+      // new GOBinding('text', 'text')
     );
     return goMaker(go.Panel,
       'Spot',
@@ -174,7 +183,7 @@ export class NodeTemplates {
       containerOutline,
       contentOutline,
       selectedOutline,
-      textBlock,
+      // textBlock,
       iconHolder
     );
   };
@@ -218,8 +227,8 @@ export class NodeTemplates {
       go.Node,
       'Spot',
       nodeProperties,
-      iconLabelPanel,
-      expandBtn
+      iconLabelPanel
+      // expandBtn
     );
   }
 
@@ -230,13 +239,23 @@ export class NodeTemplates {
       {
         parameter1: 1,
         height: 20,
+        fill: '#EAF6FF',
         stroke: null
       }
     );
 
+    let outerTbWorkloadProp = {
+      alignment: go.Spot.Center,
+      overflow: go.TextBlock.OverflowEllipsis,
+      wrap: go.TextBlock.None,
+      maxSize: new go.Size(150, 20),
+      margin: new go.Margin(2, 4, 0, 2)
+    };
+
     let textBlock = goMaker(
       go.TextBlock,
-      new go.Binding('text', 'text')
+      outerTbWorkloadProp,
+      new GOBinding('text', 'text')
     );
 
     return goMaker(

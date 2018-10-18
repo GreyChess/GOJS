@@ -5,6 +5,7 @@ import {GoJSDiagram} from '../goUtils/IGoJDDiagram';
 import * as go from 'gojs';
 import {NodeTemplates} from '../goUtils/NodeTemplates';
 import {DEMONODES} from '../mockData/mock-node-data';
+import {LinkTemplates} from '../goUtils/LinkTemplates';
 
 @Component({
   selector: 'nz-demo-layout-custom-trigger',
@@ -94,8 +95,9 @@ export class NzDemoLayoutCustomTriggerComponent implements OnInit {
   ngOnInit(): void {
     this.goDiagram = GoDiagramUtils.createDiagram('goDiagramDiv');
     this.goDiagram.model = new go.GraphLinksModel(this.demoNodeArray,
-      [{from: '1', to: '2'}]);
+      [{from: '1', to: '2', type: "contains"}]);
     this.goDiagram.nodeTemplateMap = new NodeTemplates().getNodeTemplateMap();
+    this.goDiagram.linkTemplate = new LinkTemplates().getLinkTempLate();
   }
 
 
