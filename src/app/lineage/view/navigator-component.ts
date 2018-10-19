@@ -11,7 +11,7 @@ import {LinkTemplates} from '../goUtils/LinkTemplates';
   selector: 'nz-demo-layout-custom-trigger',
   template: `
     <nz-layout>
-      <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate">
+      <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate" id="sider">
         <div class="logo">
         </div>
         <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
@@ -25,6 +25,7 @@ import {LinkTemplates} from '../goUtils/LinkTemplates';
           </li>
           <li nz-submenu>
             <span title><i class="anticon anticon-team"></i><span class="nav-text">Team</span></span>
+            <app-node-detail></app-node-detail>
             <ul>
               <li nz-menu-item>Team 1</li>
               <li nz-menu-item>Team 2</li>
@@ -38,7 +39,7 @@ import {LinkTemplates} from '../goUtils/LinkTemplates';
           <i class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed"
              (click)="isCollapsed=!isCollapsed"></i>
         </nz-header>
-        <nz-content style="margin:0 16px;">
+        <nz-content style="display:flex; flex-direction: column;">
           <nz-breadcrumb style="margin:16px 0;">
             <nz-breadcrumb-item>User</nz-breadcrumb-item>
             <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
@@ -77,6 +78,17 @@ import {LinkTemplates} from '../goUtils/LinkTemplates';
       nz-layout {
         height: 100%;
       }
+      
+      #sider {
+        max-width: 350px !important;
+        min-width: 200px !important;
+        width: 20rem !important;
+        flex: none !important;
+      }
+      
+      #goDiagramDiv {
+        flex: auto;
+      }
     `
   ]
 })
@@ -95,7 +107,7 @@ export class NzDemoLayoutCustomTriggerComponent implements OnInit {
   ngOnInit(): void {
     this.goDiagram = GoDiagramUtils.createDiagram('goDiagramDiv');
     this.goDiagram.model = new go.GraphLinksModel(this.demoNodeArray,
-      [{from: '1', to: '2', type: "contains"}]);
+      [{from: '1', to: '2', type: 'contains'}]);
     this.goDiagram.nodeTemplateMap = new NodeTemplates().getNodeTemplateMap();
     this.goDiagram.linkTemplate = new LinkTemplates().getLinkTempLate();
   }

@@ -13,14 +13,15 @@ import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import {NzDemoLayoutCustomTriggerComponent} from './lineage/view/navigator-component';
-import {DEMONODES} from './lineage/mockData/mock-node-data';
+import {NodeDetailComponent} from './lineage/view/node-detail.component';
 
 registerLocaleData(zh);
 
 @NgModule({
   declarations: [
     AppComponent,
-    NzDemoLayoutCustomTriggerComponent
+    NzDemoLayoutCustomTriggerComponent,
+    NodeDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +29,6 @@ registerLocaleData(zh);
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgZorroAntdModule,
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false}
     ),
