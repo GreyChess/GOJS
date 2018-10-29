@@ -4,8 +4,10 @@ import {GoDiagramUtils} from '../goUtils/GoDiagramUtils';
 import {GoJSDiagram} from '../goUtils/IGoJDDiagram';
 import * as go from 'gojs';
 import {NodeTemplates} from '../goUtils/NodeTemplates';
-import {DEMONODES} from '../mockData/mock-node-data';
 import {LinkTemplates} from '../goUtils/LinkTemplates';
+import {RelationshipService} from '../netService/relationship.service';
+import {NodeModel} from '../dataModel/nodeModel';
+import {DiagramEventService} from '../nativeEventService/diagramEvent.service';
 
 @Component({
   selector: 'nz-demo-layout-custom-trigger',
@@ -78,14 +80,14 @@ import {LinkTemplates} from '../goUtils/LinkTemplates';
       nz-layout {
         height: 100%;
       }
-      
+
       #sider {
         max-width: 350px !important;
         min-width: 200px !important;
         width: 20rem !important;
         flex: none !important;
       }
-      
+
       #goDiagramDiv {
         flex: auto;
       }
@@ -96,7 +98,8 @@ export class NzDemoLayoutCustomTriggerComponent implements OnInit {
   isCollapsed = false;
   triggerTemplate = null;
   goDiagram: GoJSDiagram;
-  demoNodeArray = DEMONODES;
+  demoNodeArray: NodeModel[];
+  demoRelationshipArray: { from: string, to: string, type: string }[];
   @ViewChild('trigger') customTrigger: TemplateRef<void>;
 
   /** custom trigger can be TemplateRef **/
@@ -104,12 +107,35 @@ export class NzDemoLayoutCustomTriggerComponent implements OnInit {
     this.triggerTemplate = this.customTrigger;
   }
 
+  constructor(private relationshipService: RelationshipService, private diagramEventService: DiagramEventService) {
+    const self = this;
+    self.demoNodeArray = relationshipService.getArrayNodeInfo();
+    self.demoRelationshipArray = new Array();
+    self.demoNodeArray.forEach(function (nodeInfo) {
+      if (nodeInfo.to != null) {
+        for (let index in nodeInfo.to) {
+          let from = nodeInfo.key;
+          let to = nodeInfo.to[index].target;
+          let type = nodeInfo.to[index].type;
+          self.demoRelationshipArray.push({from: from, to: to, type: type});
+        }
+      }
+    });
+  }
+
   ngOnInit(): void {
-    this.goDiagram = GoDiagramUtils.createDiagram('goDiagramDiv');
-    this.goDiagram.model = new go.GraphLinksModel(this.demoNodeArray,
-      [{from: '1', to: '2', type: 'contains'}]);
-    this.goDiagram.nodeTemplateMap = new NodeTemplates().getNodeTemplateMap();
-    this.goDiagram.linkTemplate = new LinkTemplates().getLinkTempLate();
+    const self = this;
+    self.goDiagram = GoDiagramUtils.createDiagram('goDiagramDiv');
+    self.goDiagram.model = new go.GraphLinksModel(self.demoNodeArray,
+      self.demoRelationshipArray);
+    self.goDiagram.nodeTemplateMap = new NodeTemplates().getNodeTemplateMap();
+    self.goDiagram.linkTemplate = new LinkTemplates().getLinkTempLate();
+    self.goDiagram.toolManager.clickSelectingTool.doMouseUp = function () {
+      go.ClickSelectingTool.prototype.doMouseUp.call(this);
+      let selectedNode = self.goDiagram.selection.first();
+      if (selectedNode != null)
+        self.diagramEventService.handleNodeOnSelect([selectedNode.data]);
+    };
   }
 
 

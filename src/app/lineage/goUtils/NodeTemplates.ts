@@ -1,5 +1,6 @@
 import {GoJSDiagram} from './IGoJDDiagram';
 import * as go from 'gojs';
+import {DiagramEventService} from '../nativeEventService/diagramEvent.service';
 
 type Color = string;
 let goMaker: Function = go.GraphObject.make;
@@ -26,7 +27,6 @@ export class NodeTemplates {
   };
 
   constructor() {
-
   }
 
   public getNodeTemplateMap(): go.Map<string, go.Node> {
@@ -71,9 +71,9 @@ export class NodeTemplates {
         geometryString: mockIconSvg,
         desiredSize: new go.Size(16, 16),
         scale: 1.75,
-        fill: "black", //'#3D4550'
-        stroke: "black", //'#3D4550'
-        strokeWidth: 0
+        fill: 'black', //'#3D4550'
+        stroke: 'black', //'#3D4550'
+        strokeWidth: 0.1
       },
       // new GOBinding('geometryString', 'contentType', function (type) {
       //   //need to handle the real type.
@@ -182,7 +182,7 @@ export class NodeTemplates {
       mouseBehavior,
       containerOutline,
       contentOutline,
-      selectedOutline,
+      // selectedOutline,
       // textBlock,
       iconHolder
     );
@@ -192,7 +192,6 @@ export class NodeTemplates {
     let self = this;
     let nodeProperties = {
       'selectionChanged': function (obj) {
-        // self.onSelectionChange(obj);
       },
       'portId': '',
       // "click": self.onMouseClickObject,

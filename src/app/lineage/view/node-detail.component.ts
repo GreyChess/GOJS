@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
+import {DiagramEventService} from '../nativeEventService/diagramEvent.service';
 
 @Component({
   selector: 'app-node-detail',
@@ -6,16 +7,18 @@ import { Component } from '@angular/core';
     <nz-card
       style="width: 100%;"
       [nzLoading]="loading">
-      <nz-card-meta [nzAvatar]="avatarTemplate" [nzTitle]="nodeTitle" nzDescription="This is the description"></nz-card-meta>
+      <nz-card-meta [nzAvatar]="avatarTemplate" [nzTitle]="nodeTitle"
+                    nzDescription="This is the description"></nz-card-meta>
       <nz-collapse>
-        <nz-collapse-panel  [nzHeader]="panel.name" [nzActive]="panel.active" [nzDisabled]="panel.disabled">
-          <p style="margin:0;">A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
+        <nz-collapse-panel [nzHeader]="panel.name" [nzActive]="panel.active" [nzDisabled]="panel.disabled">
+          <p style="margin:0;">A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome
+            guest in many households across the world.</p>
         </nz-collapse-panel>
       </nz-collapse>
     </nz-card>
 
     <ng-template #avatarTemplate>
-      <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+      <nz-avatar style="border-radius:initial" nzSrc="/assets/demoIcon.svg"></nz-avatar>
     </ng-template>
     <ng-template #actionSetting>
       <i class="anticon anticon-setting"></i>
@@ -28,12 +31,26 @@ import { Component } from '@angular/core';
     </ng-template>
   `
 })
-export class NodeDetailComponent {
+export class NodeDetailComponent implements OnDestroy{
   loading = false;
-  nodeTitle = "Node1"
+  nodeTitle = 'Node1';
   panel = {
-    name:"test",
-    active:"false",
-    disabled: "false"
+    name: 'relationships',
+    active: 'false',
+    disabled: 'false'
+  };
+  private onNodeSelectSubscriber;
+
+  constructor(private diagramEventService: DiagramEventService){
+    const self = this;
+    this.onNodeSelectSubscriber = diagramEventService.nodeOnSelectStatus$.subscribe(function(selectedNode){
+      self.nodeTitle = selectedNode.text;
+    })
   }
+
+  ngOnDestroy(): void {
+    this.onNodeSelectSubscriber.unsubscribe();
+  }
+
+
 }
