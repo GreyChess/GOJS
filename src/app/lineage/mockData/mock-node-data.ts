@@ -22,13 +22,15 @@ export const DEMONODES: NodeModel[] = [
     key: '3',
     contentType: 'c',
     text: 'node003',
-    icon: null
+    icon: null,
+    group: '5'
   },
   {
     key: '4',
     contentType: 'd',
     text: 'node004',
     icon: null,
+    group: '5',
     to: [{type: 'Synonymous', target: '7'}]
   },
   {
@@ -36,7 +38,8 @@ export const DEMONODES: NodeModel[] = [
     contentType: 'e',
     text: 'node005',
     icon: null,
-    to: [{type: 'Synonymous', target: '6'}]
+    to: [{type: 'Synonymous', target: '6'}],
+    isGroup: true
   },
   {
     key: '6',

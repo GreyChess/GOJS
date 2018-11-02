@@ -6,4 +6,6 @@ export class NodeModel {
   contentType: string;
   icon;
   to?: RelationshipModel[];
+  group?: string;
+  isGroup?: boolean;
 }

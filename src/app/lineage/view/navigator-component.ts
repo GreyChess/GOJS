@@ -8,6 +8,7 @@ import {LinkTemplates} from '../goUtils/LinkTemplates';
 import {RelationshipService} from '../netService/relationship.service';
 import {NodeModel} from '../dataModel/nodeModel';
 import {DiagramEventService} from '../nativeEventService/diagramEvent.service';
+import {NodeTemplateInImpact} from '../goUtils/NodeTemplateInImpact';
 
 @Component({
   selector: 'nz-demo-layout-custom-trigger',
@@ -100,6 +101,7 @@ export class NzDemoLayoutCustomTriggerComponent implements OnInit {
   goDiagram: GoJSDiagram;
   demoNodeArray: NodeModel[];
   demoRelationshipArray: { from: string, to: string, type: string }[];
+  nodeTemplateInImpact: NodeTemplateInImpact = new NodeTemplateInImpact();
   @ViewChild('trigger') customTrigger: TemplateRef<void>;
 
   /** custom trigger can be TemplateRef **/
@@ -128,7 +130,9 @@ export class NzDemoLayoutCustomTriggerComponent implements OnInit {
     self.goDiagram = GoDiagramUtils.createDiagram('goDiagramDiv');
     self.goDiagram.model = new go.GraphLinksModel(self.demoNodeArray,
       self.demoRelationshipArray);
-    self.goDiagram.nodeTemplateMap = new NodeTemplates().getNodeTemplateMap();
+    // self.goDiagram.nodeTemplateMap = new NodeTemplates().getNodeTemplateMap();
+    self.goDiagram.nodeTemplate = self.nodeTemplateInImpact.getNodeTemplate();
+    self.goDiagram.groupTemplate = self.nodeTemplateInImpact.getGroupNodeTemplate();
     self.goDiagram.linkTemplate = new LinkTemplates().getLinkTempLate();
     self.goDiagram.toolManager.clickSelectingTool.doMouseUp = function () {
       go.ClickSelectingTool.prototype.doMouseUp.call(this);
