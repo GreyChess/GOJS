@@ -26,7 +26,7 @@ import {DiagramEventService} from '../nativeEventService/diagramEvent.service';
             </ul>
           </li>
           <li nz-submenu>
-            <span title><i class="anticon anticon-team"></i><span class="nav-text">Team</span></span>
+            <span title><i class="anticon anticon-team"></i><span class="nav-text">Node detail</span></span>
             <app-node-detail></app-node-detail>
             <ul>
               <li nz-menu-item>Team 1</li>
