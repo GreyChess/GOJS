@@ -8,4 +8,5 @@ export class NodeModel {
   to?: RelationshipModel[];
   group?: string;
   isGroup?: boolean;
+  items?: any;
 }

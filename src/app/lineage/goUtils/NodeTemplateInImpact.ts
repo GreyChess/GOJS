@@ -1,4 +1,5 @@
 import * as go from 'gojs';
+// import {ScrollingTableFragment} from '../goComponent/scrollingTableFragment';
 
 const goMaker = go.GraphObject.make;
 const goBinding = go.Binding;
@@ -6,29 +7,35 @@ let mockIconSvg = 'M 9 6 h 2 V 5 h 3 v 3 h -3 V 7 H 9 v 0.643 L 11.593 10 H 14 v
 
 export class NodeTemplateInImpact {
 
-  constructor() {
-
+  constructor(){
+    // ScrollingTableFragment.init();
   }
-
   getGroupNodeTemplate() {
     const self = this;
     return goMaker(go.Group,
       'Vertical',
+      {
+        layout: goMaker(go.GridLayout, {
+          comparer: (<any>go.GridLayout).smartComparer,
+          wrappingColumn: 1
+        })
+      },
       goMaker(go.Panel, 'Auto',
         goMaker(go.Shape,
           'RoundedRectangle', {
-            fill: 'white',
-            width: 150,
-            height: 90
+            fill: '#565656',
+            width: 130,
+            height: 150,
+            stroke: 'white'
           }),
         self.getIconContainer(go.Spot.TopLeft),
         self.getTextBlock(go.Spot.TopCenter),
         goMaker(go.Placeholder,
-          'Vertical',
           {
             padding: 5,
             alignment: go.Spot.Bottom
-          })
+          }),
+        // self.getTableContainer()
       ),
     );
   }
@@ -39,9 +46,10 @@ export class NodeTemplateInImpact {
       'Auto',
       goMaker(go.Shape,
         'RoundedRectangle', {
-          fill: 'yellow',
+          fill: '#565656',
           height: 39,
-          width: 120
+          width: 120,
+          stroke: 'white'
         }),
       self.getIconContainer(go.Spot.Left),
       self.getTextBlock(go.Spot.Center)
@@ -53,11 +61,11 @@ export class NodeTemplateInImpact {
       {
         geometryString: mockIconSvg,
         desiredSize: new go.Size(13, 13),
-        fill: 'black',
+        fill: 'white',
         alignment: alignment,
         margin: 5,
         strokeWidth: 0.2,
-        stroke: 'black'
+        stroke: 'white'
       }
     );
   }
@@ -66,9 +74,44 @@ export class NodeTemplateInImpact {
     return goMaker(go.TextBlock, {
         overflow: go.TextBlock.OverflowEllipsis,
         height: 13,
-        alignment: alignment
+        alignment: alignment,
+        stroke: 'white'
       },
       new goBinding('text', 'text')
+    );
+  }
+
+  private getTableContainer() {
+    return goMaker(go.Panel,
+      'ScrollingTable',
+      {
+        name: 'SCROLLER',
+        desiredSize: new go.Size(NaN, 60),  // fixed width
+        stretch: go.GraphObject.Fill,       // but stretches vertically
+        defaultColumnSeparatorStroke: 'gray',
+        defaultColumnSeparatorStrokeWidth: 0.5
+      },
+      new goBinding('TABLE.itemArray', 'items'),
+      {
+        'TABLE.itemTemplate': goMaker(
+          go.Panel, 'TableRow', {
+            defaultStretch: go.GraphObject.Horizontal,
+            fromSpot: go.Spot.LeftRightSides, toSpot: go.Spot.LeftRightSides,
+            fromLinkable: true, toLinkable: true
+          },
+          new goBinding('portId', 'name'),
+          goMaker(go.TextBlock, {
+              column: 0,
+            },
+            new goBinding('text', "name")
+          ),
+          goMaker(go.TextBlock, {
+              column: 1,
+            },
+            new goBinding('text', "value")
+          )
+        )
+      }
     );
   }
 }

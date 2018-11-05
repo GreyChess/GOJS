@@ -3,7 +3,7 @@ import {GoJSDiagram} from './IGoJDDiagram';
 
 
 export class GoDiagramUtils {
-  public static createDiagram(placeHolderId: string, initScale: number = 1){
+  public static createDiagram(placeHolderId: string, initScale: number = 1) {
     let goMaker = go.GraphObject.make;
     let netDiagram: GoJSDiagram = <GoJSDiagram> goMaker(
       go.Diagram,
@@ -22,7 +22,7 @@ export class GoDiagramUtils {
         minScale: 0.25,
         scrollMode: go.Diagram.InfiniteScroll,
         autoScrollRegion: 10,
-        SelectionMoved: function(e) {
+        SelectionMoved: function (e) {
           e.diagram.layout.invalidateLayout();
         }
       }

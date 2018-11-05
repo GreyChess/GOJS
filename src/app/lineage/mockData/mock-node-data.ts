@@ -51,7 +51,25 @@ export const DEMONODES: NodeModel[] = [
     key: '7',
     contentType: 'g',
     text: 'node007',
-    icon: null
+    icon: null,
+    items:
+      [
+        { name: "Aa", value: 1 },
+        { name: "Bb", value: 2 },
+        { name: "Cc", value: 3 },
+        { name: "Dd", value: 4 },
+        { name: "Ee", value: 5 },
+        { name: "Ff", value: 6 },
+        { name: "Gg", value: 7 },
+        { name: "Hh", value: 8 },
+        { name: "Ii", value: 9 },
+        { name: "Jj", value: 10 },
+        { name: "Kk", value: 11 },
+        { name: "Ll", value: 12 },
+        { name: "Mm", value: 13 },
+        { name: "Nn", value: 14 }
+      ],
+    isGroup: true
   },
 
 ];
