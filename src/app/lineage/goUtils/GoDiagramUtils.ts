@@ -22,6 +22,7 @@ export class GoDiagramUtils {
         minScale: 0.25,
         scrollMode: go.Diagram.InfiniteScroll,
         autoScrollRegion: 10,
+        layout: goMaker(go.TreeLayout, {nodeSpacing: 5}),
         SelectionMoved: function (e) {
           e.diagram.layout.invalidateLayout();
         }

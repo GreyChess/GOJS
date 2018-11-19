@@ -16,6 +16,9 @@ export class LinkTemplates {
       go.Link,
       {
         layerName: 'Background',
+        toEndSegmentLength: 50,
+        fromEndSegmentLength: 50,
+        curve: go.Link.Bezier,
         selectionChanged: () => {
         },
         contextMenu: goMaker(go.Adornment),

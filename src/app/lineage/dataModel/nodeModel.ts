@@ -9,4 +9,5 @@ export class NodeModel {
   group?: string;
   isGroup?: boolean;
   items?: any;
+  hasList?: any;
 }

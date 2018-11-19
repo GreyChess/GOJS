@@ -1,5 +1,5 @@
 import * as go from 'gojs';
-// import {ScrollingTableFragment} from '../goComponent/scrollingTableFragment';
+import {ScrollingTableFragmentOld} from '../goComponent/scrollingTableFragment-old';
 
 const goMaker = go.GraphObject.make;
 const goBinding = go.Binding;
@@ -7,9 +7,10 @@ let mockIconSvg = 'M 9 6 h 2 V 5 h 3 v 3 h -3 V 7 H 9 v 0.643 L 11.593 10 H 14 v
 
 export class NodeTemplateInImpact {
 
-  constructor(){
-    // ScrollingTableFragment.init();
+  constructor() {
+    ScrollingTableFragmentOld.init();
   }
+
   getGroupNodeTemplate() {
     const self = this;
     return goMaker(go.Group,
@@ -35,7 +36,7 @@ export class NodeTemplateInImpact {
             padding: 5,
             alignment: go.Spot.Bottom
           }),
-        // self.getTableContainer()
+        self.getTableContainer()
       ),
     );
   }
@@ -82,36 +83,46 @@ export class NodeTemplateInImpact {
   }
 
   private getTableContainer() {
-    return goMaker(go.Panel,
-      'ScrollingTable',
+    let self = this;
+    let content = goMaker(go.Panel,
       {
-        name: 'SCROLLER',
-        desiredSize: new go.Size(NaN, 60),  // fixed width
-        stretch: go.GraphObject.Fill,       // but stretches vertically
-        defaultColumnSeparatorStroke: 'gray',
-        defaultColumnSeparatorStrokeWidth: 0.5
+        margin: new go.Margin(25,0,0,0)
       },
-      new goBinding('TABLE.itemArray', 'items'),
-      {
-        'TABLE.itemTemplate': goMaker(
-          go.Panel, 'TableRow', {
-            defaultStretch: go.GraphObject.Horizontal,
-            fromSpot: go.Spot.LeftRightSides, toSpot: go.Spot.LeftRightSides,
-            fromLinkable: true, toLinkable: true
-          },
-          new goBinding('portId', 'name'),
-          goMaker(go.TextBlock, {
-              column: 0,
+      new goBinding('visible', 'hasList'),
+      goMaker(go.Panel,
+        'Table',
+        {
+          name: 'SCROLLER',
+          desiredSize: new go.Size(90, 100),  // fixed width
+          stretch: go.GraphObject.Fill,       // but stretches vertically
+          defaultColumnSeparatorStrokeWidth: 0.5,
+        },
+        new goBinding('itemArray', 'items'),
+        {
+          'itemTemplate': goMaker(
+            go.Panel, 'TableRow', {
+              fromSpot: go.Spot.LeftRightSides, toSpot: go.Spot.LeftRightSides,
+              fromLinkable: true, toLinkable: true,
+              stretch: go.GraphObject.Horizontal,
             },
-            new goBinding('text', "name")
-          ),
-          goMaker(go.TextBlock, {
-              column: 1,
-            },
-            new goBinding('text', "value")
+            new goBinding('portId', 'name'),
+            goMaker(go.Panel, "Horizontal",
+              {
+                column: 0,
+                height: 20,
+                width: 80
+              },
+              self.getIconContainer(go.Spot.Left),
+              self.getTextBlock(go.Spot.Center))
           )
-        )
-      }
-    );
+        }
+      ),
+      goMaker(go.Shape, 'RoundedRectangle', {
+        width: 90,
+        height: 100,
+        stroke: 'white',
+        fill: 'rgba(0,0,0,0)'
+      }));
+    return content;
   }
 }
