@@ -10,20 +10,24 @@ export const DEMONODES: NodeModel[] = [
       {type: 'Associated', target: '3'},
       {type: 'Synonymous', target: '4'},
       {type: 'Parent', target: '5'},
-    ]
+    ],
+    hasList: false
   },
   {
     key: '2',
     contentType: 'b',
     text: 'node002',
-    icon: null
+    icon: null,
+    to: [{type: "Parent", target: "7", toPort: "Gg"}],
+    hasList: false
   },
   {
     key: '3',
     contentType: 'c',
     text: 'node003',
     icon: null,
-    group: '5'
+    group: '5',
+    hasList: false
   },
   {
     key: '4',
@@ -31,7 +35,8 @@ export const DEMONODES: NodeModel[] = [
     text: 'node004',
     icon: null,
     group: '5',
-    to: [{type: 'Synonymous', target: '7'}]
+    to: [{type: 'Synonymous', target: '7'}],
+    hasList: false
   },
   {
     key: '5',
@@ -46,7 +51,8 @@ export const DEMONODES: NodeModel[] = [
     key: '6',
     contentType: 'f',
     text: 'node006',
-    icon: null
+    icon: null,
+    hasList: false
   },
   {
     key: '7',
@@ -70,7 +76,8 @@ export const DEMONODES: NodeModel[] = [
         { text: "Mm", value: 13 },
         { text: "Nn", value: 14 }
       ],
-    isGroup: true
+    isGroup: false,
+    hasList: true
   },
 
 ];

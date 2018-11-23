@@ -15,7 +15,7 @@ export class LinkTemplates {
     return goMaker(
       go.Link,
       {
-        layerName: 'Background',
+        // layerName: 'Background',
         toEndSegmentLength: 50,
         fromEndSegmentLength: 50,
         curve: go.Link.Bezier,

@@ -1,5 +1,5 @@
 import * as go from 'gojs';
-import {ScrollingTableFragmentOld} from '../goComponent/scrollingTableFragment-old';
+import {ScrollingTableFragment} from '../goComponent/scrollingTableFragment';
 
 const goMaker = go.GraphObject.make;
 const goBinding = go.Binding;
@@ -8,7 +8,7 @@ let mockIconSvg = 'M 9 6 h 2 V 5 h 3 v 3 h -3 V 7 H 9 v 0.643 L 11.593 10 H 14 v
 export class NodeTemplateInImpact {
 
   constructor() {
-    ScrollingTableFragmentOld.init();
+    ScrollingTableFragment.init();
   }
 
   getGroupNodeTemplate() {
@@ -35,8 +35,7 @@ export class NodeTemplateInImpact {
           {
             padding: 5,
             alignment: go.Spot.Bottom
-          }),
-        self.getTableContainer()
+          })
       ),
     );
   }
@@ -48,12 +47,29 @@ export class NodeTemplateInImpact {
       goMaker(go.Shape,
         'RoundedRectangle', {
           fill: '#565656',
-          height: 39,
-          width: 120,
           stroke: 'white'
+        },
+        new goBinding('height', 'hasList', function (hasList) {
+          return hasList ? 160 : 39;
         }),
-      self.getIconContainer(go.Spot.Left),
-      self.getTextBlock(go.Spot.Center)
+        new goBinding('width', 'hasList', function (hasList) {
+          return hasList ? 130 : 115;
+        })
+      ),
+      goMaker(go.Panel, 'Vertical',
+        goMaker(go.Panel, 'Auto',
+          goMaker(go.Shape,
+            'RoundedRectangle', {
+              fill: '#565656',
+              height: 39,
+              width: 115,
+              strokeWidth: 0
+            }),
+          self.getIconContainer(go.Spot.Left),
+          self.getTextBlock(go.Spot.Center),
+        ),
+        goMaker(go.Panel, self.getTableContainer())
+      )
     );
   }
 
@@ -84,45 +100,44 @@ export class NodeTemplateInImpact {
 
   private getTableContainer() {
     let self = this;
-    let content = goMaker(go.Panel,
-      {
-        margin: new go.Margin(25,0,0,0)
-      },
-      new goBinding('visible', 'hasList'),
-      goMaker(go.Panel,
-        'Table',
+    let content = goMaker(go.Panel, 'Auto',
+      new goBinding('visible', 'hasList', function (hasList) {
+        return hasList == true;
+      }),
+      goMaker('ScrollingTable',
         {
           name: 'SCROLLER',
-          desiredSize: new go.Size(90, 100),  // fixed width
+          desiredSize: new go.Size(NaN, 100),  // fixed width
           stretch: go.GraphObject.Fill,       // but stretches vertically
           defaultColumnSeparatorStrokeWidth: 0.5,
         },
-        new goBinding('itemArray', 'items'),
+        new goBinding('TABLE.itemArray', 'items'),
         {
-          'itemTemplate': goMaker(
-            go.Panel, 'TableRow', {
-              fromSpot: go.Spot.LeftRightSides, toSpot: go.Spot.LeftRightSides,
-              fromLinkable: true, toLinkable: true,
-              stretch: go.GraphObject.Horizontal,
-            },
-            new goBinding('portId', 'name'),
-            goMaker(go.Panel, "Horizontal",
-              {
-                column: 0,
-                height: 20,
-                width: 80
+          'TABLE.itemTemplate':
+            goMaker(
+              go.Panel, 'TableRow', {
+                defaultStretch: go.GraphObject.Horizontal,
+                fromSpot: go.Spot.LeftRightSides, toSpot: go.Spot.LeftRightSides,
+                fromLinkable: true, toLinkable: true
               },
-              self.getIconContainer(go.Spot.Left),
-              self.getTextBlock(go.Spot.Center))
-          )
+              new goBinding('portId', 'text'),
+              goMaker(go.Panel, 'Horizontal',
+                {
+                  column: 0,
+                  height: 20,
+                  width: 80
+                },
+                self.getIconContainer(go.Spot.Left),
+                self.getTextBlock(go.Spot.Center)),
+            ),
+          'TABLE.defaultColumnSeparatorStroke': 'gray',
+          'TABLE.defaultColumnSeparatorStrokeWidth': 0.5,
+          // "TABLE.defaultRowSeparatorStroke": "gray",
+          // "TABLE.defaultRowSeparatorStrokeWidth": 0.5,
+          'TABLE.defaultSeparatorPadding': new go.Margin(1, 3, 0, 3)
         }
-      ),
-      goMaker(go.Shape, 'RoundedRectangle', {
-        width: 90,
-        height: 100,
-        stroke: 'white',
-        fill: 'rgba(0,0,0,0)'
-      }));
+      )
+    );
     return content;
   }
 }

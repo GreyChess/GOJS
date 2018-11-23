@@ -100,7 +100,7 @@ export class NzDemoLayoutCustomTriggerComponent implements OnInit {
   triggerTemplate = null;
   goDiagram: GoJSDiagram;
   demoNodeArray: NodeModel[];
-  demoRelationshipArray: { from: string, to: string, type: string }[];
+  demoRelationshipArray: { from: string, to: string, type: string, fromPort?: string, toPort?: string }[];
   nodeTemplateInImpact: NodeTemplateInImpact = new NodeTemplateInImpact();
   @ViewChild('trigger') customTrigger: TemplateRef<void>;
 
@@ -117,9 +117,11 @@ export class NzDemoLayoutCustomTriggerComponent implements OnInit {
       if (nodeInfo.to != null) {
         for (let index in nodeInfo.to) {
           let from = nodeInfo.key;
-          let to = nodeInfo.to[index].target;
           let type = nodeInfo.to[index].type;
-          self.demoRelationshipArray.push({from: from, to: to, type: type});
+          let toPort = nodeInfo.to[index].toPort;
+          let to = nodeInfo.to[index].target;
+          let fromPort = from;
+          self.demoRelationshipArray.push({from: from, to: to, type: type, toPort: toPort, fromPort: fromPort});
         }
       }
     });
@@ -128,8 +130,13 @@ export class NzDemoLayoutCustomTriggerComponent implements OnInit {
   ngOnInit(): void {
     const self = this;
     self.goDiagram = GoDiagramUtils.createDiagram('goDiagramDiv');
-    self.goDiagram.model = new go.GraphLinksModel(self.demoNodeArray,
-      self.demoRelationshipArray);
+    self.goDiagram.model = go.GraphObject.make(go.GraphLinksModel,
+      {
+        linkFromPortIdProperty: 'fromPort',
+        linkToPortIdProperty: 'toPort',
+        nodeDataArray: self.demoNodeArray,
+        linkDataArray: self.demoRelationshipArray
+      });
     // self.goDiagram.nodeTemplateMap = new NodeTemplates().getNodeTemplateMap();
     self.goDiagram.nodeTemplate = self.nodeTemplateInImpact.getNodeTemplate();
     self.goDiagram.groupTemplate = self.nodeTemplateInImpact.getGroupNodeTemplate();
