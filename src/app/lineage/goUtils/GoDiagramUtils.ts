@@ -1,5 +1,7 @@
 import * as go from 'gojs';
 import {GoJSDiagram} from './IGoJDDiagram';
+import {ParallelLayout} from '../goComponent/parallelLayout';
+import {TreeLayout} from 'gojs';
 
 
 export class GoDiagramUtils {
@@ -22,7 +24,11 @@ export class GoDiagramUtils {
         minScale: 0.25,
         scrollMode: go.Diagram.InfiniteScroll,
         autoScrollRegion: 10,
-        layout: goMaker(go.TreeLayout, {nodeSpacing: 5}),
+        layout: goMaker(<any>ParallelLayout,
+          {
+            layerStyle: TreeLayout.LayerUniform,
+            layerSpacing: 50
+          }),
         SelectionMoved: function (e) {
           e.diagram.layout.invalidateLayout();
         }

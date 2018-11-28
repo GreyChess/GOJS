@@ -1,5 +1,7 @@
 import * as go from 'gojs';
 import {ScrollingTableFragment} from '../goComponent/scrollingTableFragment';
+import {ParallelLayout} from '../goComponent/parallelLayout';
+import {TreeLayout} from 'gojs';
 
 const goMaker = go.GraphObject.make;
 const goBinding = go.Binding;
@@ -16,25 +18,31 @@ export class NodeTemplateInImpact {
     return goMaker(go.Group,
       'Vertical',
       {
-        layout: goMaker(go.GridLayout, {
-          comparer: (<any>go.GridLayout).smartComparer,
-          wrappingColumn: 1
-        })
+        layout: goMaker(<any>ParallelLayout,
+          {
+            layerStyle: TreeLayout.LayerUniform,
+            layerSpacing: 50
+          })
       },
       goMaker(go.Panel, 'Auto',
         goMaker(go.Shape,
           'RoundedRectangle', {
             fill: '#565656',
-            width: 130,
-            height: 150,
             stroke: 'white'
           }),
-        self.getIconContainer(go.Spot.TopLeft),
-        self.getTextBlock(go.Spot.TopCenter),
+        goMaker(go.Panel, 'Horizontal', {
+            alignment: go.Spot.TopLeft,
+            desiredSize: new go.Size(115, 39),
+          },
+          self.getIconContainer(go.Spot.Left),
+          self.getTextBlock(go.Spot.Center),
+          self.getGroupExpandButton(go.Spot.Right),
+        ),
         goMaker(go.Placeholder,
           {
             padding: 5,
-            alignment: go.Spot.Bottom
+            margin: new go.Margin(30, 0, 0, 0),
+            alignment: go.Spot.Left
           })
       ),
     );
@@ -66,10 +74,11 @@ export class NodeTemplateInImpact {
               strokeWidth: 0
             }),
           self.getIconContainer(go.Spot.Left),
-          self.getTextBlock(go.Spot.Center),
+          self.getTextBlock(go.Spot.Center)
         ),
         goMaker(go.Panel, self.getTableContainer())
-      )
+      ),
+      self.getNormalExpandButton(go.Spot.Right)
     );
   }
 
@@ -95,6 +104,53 @@ export class NodeTemplateInImpact {
         stroke: 'white'
       },
       new goBinding('text', 'text')
+    );
+  }
+
+  private getGroupExpandButton(alignment) {
+    return goMaker(go.Shape, {
+        alignment: alignment,
+        desiredSize: new go.Size(13, 13),
+        stroke: 'white',
+        figure: 'LogicAnd',
+        click: function (targetEvent) {
+          let preIsSubGraphExpanded = targetEvent.targetObject.part.isSubGraphExpanded;
+          targetEvent.targetObject.part.isSubGraphExpanded = !preIsSubGraphExpanded;
+          targetEvent.targetObject.part.data.groupIsCollapsed = !targetEvent.targetObject.part.data.groupIsCollapsed;
+          targetEvent.targetObject.part.updateTargetBindings('groupIsCollapsed');
+        }
+      },
+      new goBinding('figure', 'groupIsCollapsed', function (showContent) {
+        return showContent ? 'LogicOr' : 'LogicAnd';
+      })
+    );
+  }
+
+  private getNormalExpandButton(alignment) {
+    return goMaker(go.Panel,
+      {
+        alignment: alignment
+      },
+      goMaker(go.Shape, {
+        figure: 'Circle',
+        strokeWidth: 1,
+        width: 15,
+        height: 15,
+        fill: 'white'
+      }),
+      goMaker(
+        go.Shape, {
+          figure: 'PlusLine'
+        },
+        new go.Binding('figure', 'isExpanded', function (isExp: boolean) {
+          return isExp ? 'MinusLine' : 'PlusLine';
+        }), {
+          desiredSize: new go.Size(11, 11),
+          stroke: 'grey',
+          strokeWidth: 2,
+          position: new go.Point(1.5, 1.5)
+        }
+      )
     );
   }
 

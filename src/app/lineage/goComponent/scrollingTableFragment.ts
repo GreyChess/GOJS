@@ -122,7 +122,8 @@ export class ScrollingTableFragment{
             stretch: go.GraphObject.Fill,
             background: '#565656',
             rowSizing: go.RowColumnDefinition.None,
-            defaultAlignment: go.Spot.Top
+            defaultAlignment: go.Spot.Top,
+            desiredSize: new go.Size(80, 100)
           }),
 
         // this is the scrollbar

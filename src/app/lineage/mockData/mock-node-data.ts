@@ -36,7 +36,9 @@ export const DEMONODES: NodeModel[] = [
     icon: null,
     group: '5',
     to: [{type: 'Synonymous', target: '7'}],
-    hasList: false
+    hasList: false,
+    isGroup: true,
+    groupIsCollapsed: false
   },
   {
     key: '5',
@@ -45,14 +47,16 @@ export const DEMONODES: NodeModel[] = [
     icon: null,
     to: [{type: 'Synonymous', target: '6'}],
     isGroup: true,
-    hasList: false
+    hasList: false,
+    groupIsCollapsed: false
   },
   {
     key: '6',
     contentType: 'f',
     text: 'node006',
     icon: null,
-    hasList: false
+    hasList: false,
+    group: "10"
   },
   {
     key: '7',
@@ -77,7 +81,34 @@ export const DEMONODES: NodeModel[] = [
         { text: "Nn", value: 14 }
       ],
     isGroup: false,
+    group: "10",
     hasList: true
   },
+  {
+    key: '8',
+    contentType: 'f',
+    text: 'node008',
+    icon: null,
+    hasList: false,
+    group: "4",
+    to: [{type: 'Synonymous', target: '9'}]
+  },
+  {
+    key: '9',
+    contentType: 'f',
+    text: 'node009',
+    icon: null,
+    hasList: false,
+    group: "4"
+  },
+  {
+    key: '10',
+    contentType: 'f',
+    text: 'node010',
+    icon: null,
+    hasList: false,
+    isGroup: true,
+    groupIsCollapsed: false
+  }
 
 ];
