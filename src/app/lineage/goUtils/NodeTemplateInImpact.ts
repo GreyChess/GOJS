@@ -21,7 +21,8 @@ export class NodeTemplateInImpact {
         layout: goMaker(<any>ParallelLayout,
           {
             layerStyle: TreeLayout.LayerUniform,
-            layerSpacing: 50
+            layerSpacing: 50,
+            alignment: TreeLayout.AlignmentStart
           })
       },
       goMaker(go.Panel, 'Auto',
@@ -52,31 +53,36 @@ export class NodeTemplateInImpact {
     const self = this;
     return goMaker(go.Node,
       'Auto',
-      goMaker(go.Shape,
-        'RoundedRectangle', {
-          fill: '#565656',
-          stroke: 'white'
-        },
-        new goBinding('height', 'hasList', function (hasList) {
-          return hasList ? 160 : 39;
-        }),
-        new goBinding('width', 'hasList', function (hasList) {
-          return hasList ? 130 : 115;
-        })
-      ),
-      goMaker(go.Panel, 'Vertical',
-        goMaker(go.Panel, 'Auto',
-          goMaker(go.Shape,
-            'RoundedRectangle', {
-              fill: '#565656',
-              height: 39,
-              width: 115,
-              strokeWidth: 0
-            }),
-          self.getIconContainer(go.Spot.Left),
-          self.getTextBlock(go.Spot.Center)
+      goMaker(go.Panel,
+        'Auto',
+        goMaker(go.Shape,
+          'RoundedRectangle', {
+            fill: '#565656',
+            stroke: 'white',
+            margin: new go.Margin(0,7,0,0)
+          },
+          new goBinding('height', 'hasList', function (hasList) {
+            return hasList ? 160 : 39;
+          }),
+          new goBinding('width', 'hasList', function (hasList) {
+            return hasList ? 130 : 115;
+          })
         ),
-        goMaker(go.Panel, self.getTableContainer())
+        goMaker(go.Panel, 'Vertical',
+          goMaker(go.Panel, 'Auto',
+            goMaker(go.Shape,
+              'RoundedRectangle', {
+                // fill: 'yellow',
+                fill: '#565656',
+                height: 39,
+                width: 115,
+                strokeWidth: 0
+              }),
+            self.getIconContainer(go.Spot.Left),
+            self.getTextBlock(go.Spot.Center)
+          ),
+          goMaker(go.Panel, self.getTableContainer())
+        )
       ),
       self.getNormalExpandButton(go.Spot.Right)
     );
@@ -89,7 +95,7 @@ export class NodeTemplateInImpact {
         desiredSize: new go.Size(13, 13),
         fill: 'white',
         alignment: alignment,
-        margin: 5,
+        margin: new go.Margin(0,5,0,5),
         strokeWidth: 0.2,
         stroke: 'white'
       }
@@ -136,7 +142,10 @@ export class NodeTemplateInImpact {
         strokeWidth: 1,
         width: 15,
         height: 15,
-        fill: 'white'
+        fill: 'white',
+        click: function(targetEvent){
+          console.log("collapse");
+        }
       }),
       goMaker(
         go.Shape, {

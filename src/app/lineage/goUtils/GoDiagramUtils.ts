@@ -15,6 +15,7 @@ export class GoDiagramUtils {
         allowDelete: false,
         allowDrop: false,
         allowInsert: false,
+        allowMove: false,
         // initialAutoScale: isAutoScale ? go.Diagram.None : go.Diagram.Uniform,
         initialScale: initScale,
         initialContentAlignment: go.Spot.Center,
@@ -27,7 +28,7 @@ export class GoDiagramUtils {
         layout: goMaker(<any>ParallelLayout,
           {
             layerStyle: TreeLayout.LayerUniform,
-            layerSpacing: 50
+            layerSpacing: 100
           }),
         SelectionMoved: function (e) {
           e.diagram.layout.invalidateLayout();

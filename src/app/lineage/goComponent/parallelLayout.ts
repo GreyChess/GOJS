@@ -8,6 +8,7 @@
 // This will position the "Merge" node to line up with the "Split" node.
 
 import * as go from 'gojs';
+import {TreeLayout} from 'gojs';
 
 /**
  * @constructor
@@ -22,9 +23,9 @@ export function ParallelLayout() {
   go.TreeLayout.call(this);
   this.isRealtime = false;
   // these are desired for the Parallel Layout:
-  this.alignment = go.TreeLayout.AlignmentCenterChildren;
+  this.alignment = go.TreeLayout.AlignmentStart;
   this.compaction = go.TreeLayout.CompactionNone;
-  this.alternateAlignment = go.TreeLayout.AlignmentCenterChildren;
+  this.alternateAlignment = go.TreeLayout.AlignmentStart;
   this.alternateCompaction = go.TreeLayout.CompactionNone;
 }
 go.Diagram.inherit(<any>ParallelLayout, go.TreeLayout);

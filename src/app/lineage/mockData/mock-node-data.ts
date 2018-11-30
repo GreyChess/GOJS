@@ -18,7 +18,7 @@ export const DEMONODES: NodeModel[] = [
     contentType: 'b',
     text: 'node002',
     icon: null,
-    to: [{type: "Parent", target: "7", toPort: "Gg"}],
+    to: [{type: "Parent", target: "7", toPort: "ColumnGg"}],
     hasList: false
   },
   {
@@ -32,7 +32,7 @@ export const DEMONODES: NodeModel[] = [
   {
     key: '4',
     contentType: 'd',
-    text: 'node004',
+    text: 'Group004',
     icon: null,
     group: '5',
     to: [{type: 'Synonymous', target: '7'}],
@@ -43,7 +43,7 @@ export const DEMONODES: NodeModel[] = [
   {
     key: '5',
     contentType: 'e',
-    text: 'node005',
+    text: 'Group005',
     icon: null,
     to: [{type: 'Synonymous', target: '6'}],
     isGroup: true,
@@ -55,30 +55,29 @@ export const DEMONODES: NodeModel[] = [
     contentType: 'f',
     text: 'node006',
     icon: null,
-    hasList: false,
-    group: "10"
+    hasList: false
   },
   {
     key: '7',
     contentType: 'g',
-    text: 'node007',
+    text: 'Table',
     icon: null,
     items:
       [
-        { text: "Aa", value: 1 },
-        { text: "Bb", value: 2 },
-        { text: "Cc", value: 3 },
-        { text: "Dd", value: 4 },
-        { text: "Ee", value: 5 },
-        { text: "Ff", value: 6 },
-        { text: "Gg", value: 7 },
-        { text: "Hh", value: 8 },
-        { text: "Ii", value: 9 },
-        { text: "Jj", value: 10 },
-        { text: "Kk", value: 11 },
-        { text: "Ll", value: 12 },
-        { text: "Mm", value: 13 },
-        { text: "Nn", value: 14 }
+        { text: "ColumnAa", value: 1 },
+        { text: "ColumnBb", value: 2 },
+        { text: "ColumnCc", value: 3 },
+        { text: "ColumnDd", value: 4 },
+        { text: "ColumnEe", value: 5 },
+        { text: "ColumnFf", value: 6 },
+        { text: "ColumnGg", value: 7 },
+        { text: "ColumnHh", value: 8 },
+        { text: "ColumnIi", value: 9 },
+        { text: "ColumnJj", value: 10 },
+        { text: "ColumnKk", value: 11 },
+        { text: "ColumnLl", value: 12 },
+        { text: "ColumnMm", value: 13 },
+        { text: "ColumnNn", value: 14 }
       ],
     isGroup: false,
     group: "10",
@@ -104,7 +103,7 @@ export const DEMONODES: NodeModel[] = [
   {
     key: '10',
     contentType: 'f',
-    text: 'node010',
+    text: 'Group010',
     icon: null,
     hasList: false,
     isGroup: true,
