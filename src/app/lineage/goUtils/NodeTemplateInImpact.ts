@@ -2,6 +2,7 @@ import * as go from 'gojs';
 import {ScrollingTableFragment} from '../goComponent/scrollingTableFragment';
 import {ParallelLayout} from '../goComponent/parallelLayout';
 import {TreeLayout} from 'gojs';
+import {ShapeOverFlow} from '../goComponent/shapeOverFlow';
 
 const goMaker = go.GraphObject.make;
 const goBinding = go.Binding;
@@ -11,6 +12,7 @@ export class NodeTemplateInImpact {
 
   constructor() {
     ScrollingTableFragment.init();
+    ShapeOverFlow.init();
   }
 
   getGroupNodeTemplate() {
@@ -27,7 +29,7 @@ export class NodeTemplateInImpact {
       },
       goMaker(go.Panel, 'Auto',
         goMaker(go.Shape,
-          'RoundedRectangle', {
+          'Rectangle', {
             fill: '#565656',
             stroke: 'white'
           }),
@@ -56,30 +58,34 @@ export class NodeTemplateInImpact {
       goMaker(go.Panel,
         'Auto',
         goMaker(go.Shape,
-          'RoundedRectangle', {
+          'Rectangle', {
             fill: '#565656',
-            stroke: 'white',
-            margin: new go.Margin(0,7,0,0)
+            stroke: '#005961',
+            strokeWidth: 5,
+            margin: new go.Margin(0, 7, 0, 0)
           },
           new goBinding('height', 'hasList', function (hasList) {
-            return hasList ? 160 : 39;
+            return hasList ? 160 : 29;
           }),
           new goBinding('width', 'hasList', function (hasList) {
-            return hasList ? 130 : 115;
+            return hasList ? 160 : 140;
           })
         ),
         goMaker(go.Panel, 'Vertical',
           goMaker(go.Panel, 'Auto',
             goMaker(go.Shape,
-              'RoundedRectangle', {
-                // fill: 'yellow',
+              'Rectangle', {
                 fill: '#565656',
-                height: 39,
-                width: 115,
+                height: 29,
+                width: 140,
                 strokeWidth: 0
-              }),
+              },
+              new goBinding('fill', 'isSubject', function (isSubject) {
+                return isSubject ? '#def1f3' : '#565656';
+              })),
             self.getIconContainer(go.Spot.Left),
-            self.getTextBlock(go.Spot.Center)
+            self.getTextBlock(go.Spot.Center),
+            self.getOverflowButton(go.Spot.Right)
           ),
           goMaker(go.Panel, self.getTableContainer())
         )
@@ -93,12 +99,18 @@ export class NodeTemplateInImpact {
       {
         geometryString: mockIconSvg,
         desiredSize: new go.Size(13, 13),
-        fill: 'white',
+        // fill: '#45888f',
         alignment: alignment,
-        margin: new go.Margin(0,5,0,5),
+        margin: new go.Margin(0, 5, 0, 5),
         strokeWidth: 0.2,
         stroke: 'white'
-      }
+      },
+      new goBinding('stroke', 'isSubject', function (isSubject) {
+        return isSubject ? '#45888f' : 'white';
+      }),
+      new goBinding('fill', 'isSubject', function (isSubject) {
+        return isSubject ? '#45888f' : 'white';
+      })
     );
   }
 
@@ -109,7 +121,10 @@ export class NodeTemplateInImpact {
         alignment: alignment,
         stroke: 'white'
       },
-      new goBinding('text', 'text')
+      new goBinding('text', 'text'),
+      new goBinding('stroke', 'isSubject', function (isSubject) {
+        return isSubject ? '#45888f' : 'white';
+      })
     );
   }
 
@@ -124,12 +139,24 @@ export class NodeTemplateInImpact {
           targetEvent.targetObject.part.isSubGraphExpanded = !preIsSubGraphExpanded;
           targetEvent.targetObject.part.data.groupIsCollapsed = !targetEvent.targetObject.part.data.groupIsCollapsed;
           targetEvent.targetObject.part.updateTargetBindings('groupIsCollapsed');
-        }
+        },
       },
       new goBinding('figure', 'groupIsCollapsed', function (showContent) {
         return showContent ? 'LogicOr' : 'LogicAnd';
       })
     );
+  }
+
+  private getOverflowButton(alignment) {
+    return goMaker(go.Shape,{
+      figure: "OverflowInVertical",
+      desiredSize: new go.Size(18, 18),
+      alignment: alignment,
+      stroke: "#257379",
+      fill: "#257379",
+      strokeWidth: 1.5,
+      margin: new go.Margin(0,8,0,0)
+    })
   }
 
   private getNormalExpandButton(alignment) {
@@ -143,21 +170,22 @@ export class NodeTemplateInImpact {
         width: 15,
         height: 15,
         fill: 'white',
-        click: function(targetEvent){
-          console.log("collapse");
+        stroke: '#4e4e4d',
+        click: function (targetEvent) {
+          console.log('collapse');
         }
       }),
       goMaker(
         go.Shape, {
-          figure: 'PlusLine'
+          figure: 'PlusLine',
         },
         new go.Binding('figure', 'isExpanded', function (isExp: boolean) {
           return isExp ? 'MinusLine' : 'PlusLine';
         }), {
-          desiredSize: new go.Size(11, 11),
-          stroke: 'grey',
-          strokeWidth: 2,
-          position: new go.Point(1.5, 1.5)
+          desiredSize: new go.Size(9.2, 9.2),
+          stroke: '#4e4e4d',
+          strokeWidth: 2.2,
+          position: new go.Point(2.1, 2.1)
         }
       )
     );

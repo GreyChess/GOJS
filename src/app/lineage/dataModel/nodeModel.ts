@@ -10,5 +10,6 @@ export class NodeModel {
   isGroup?: boolean;
   items?: any;
   hasList?: any;
-  groupIsCollapsed?: boolean
+  groupIsCollapsed?: boolean;
+  isSubject?: boolean;
 }

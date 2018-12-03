@@ -11,7 +11,8 @@ export const DEMONODES: NodeModel[] = [
       {type: 'Synonymous', target: '4'},
       {type: 'Parent', target: '5'},
     ],
-    hasList: false
+    hasList: false,
+    isSubject: true
   },
   {
     key: '2',
@@ -27,7 +28,8 @@ export const DEMONODES: NodeModel[] = [
     text: 'node003',
     icon: null,
     group: '5',
-    hasList: false
+    hasList: false,
+    to: [{type: "Parent", target: "2"}],
   },
   {
     key: '4',
