@@ -18,7 +18,6 @@ export class DiagramEventService {
   handleNodeOnSelect(arraySelectedNode: NodeModel[]) {
     if (arraySelectedNode.length == 1) {
       this.nodeOnSelect.next(arraySelectedNode[0]);
-      console.log(111111111111)
     } else {
 
     }

@@ -4,7 +4,7 @@ export const DEMONODES: NodeModel[] = [
   {
     key: '1',
     contentType: 'a',
-    text: 'node001',
+    text: 'node001_111111111111111111111111111',
     icon: null,
     to: [{type: 'Parent', target: '2'},
       {type: 'Associated', target: '3'},
@@ -20,7 +20,8 @@ export const DEMONODES: NodeModel[] = [
     text: 'node002',
     icon: null,
     to: [{type: "Parent", target: "7", toPort: "ColumnGg"}],
-    hasList: false
+    hasList: false,
+    isSubject: false
   },
   {
     key: '3',
@@ -30,17 +31,19 @@ export const DEMONODES: NodeModel[] = [
     group: '5',
     hasList: false,
     to: [{type: "Parent", target: "2"}],
+    isSubject: false
   },
   {
     key: '4',
     contentType: 'd',
-    text: 'Group004',
+    text: 'Group004_7777777777777777777777',
     icon: null,
     group: '5',
     to: [{type: 'Synonymous', target: '7'}],
     hasList: false,
     isGroup: true,
-    groupIsCollapsed: false
+    groupIsCollapsed: false,
+    isSubject: false
   },
   {
     key: '5',
@@ -50,14 +53,16 @@ export const DEMONODES: NodeModel[] = [
     to: [{type: 'Synonymous', target: '6'}],
     isGroup: true,
     hasList: false,
-    groupIsCollapsed: false
+    groupIsCollapsed: false,
+    isSubject: false
   },
   {
     key: '6',
     contentType: 'f',
     text: 'node006',
     icon: null,
-    hasList: false
+    hasList: false,
+    isSubject: false
   },
   {
     key: '7',
@@ -83,7 +88,8 @@ export const DEMONODES: NodeModel[] = [
       ],
     isGroup: false,
     group: "10",
-    hasList: true
+    hasList: true,
+    isSubject: false
   },
   {
     key: '8',
@@ -92,7 +98,8 @@ export const DEMONODES: NodeModel[] = [
     icon: null,
     hasList: false,
     group: "4",
-    to: [{type: 'Synonymous', target: '9'}]
+    to: [{type: 'Synonymous', target: '9'}],
+    isSubject: false
   },
   {
     key: '9',
@@ -100,7 +107,8 @@ export const DEMONODES: NodeModel[] = [
     text: 'node009',
     icon: null,
     hasList: false,
-    group: "4"
+    group: "4",
+    isSubject: false
   },
   {
     key: '10',
@@ -109,7 +117,8 @@ export const DEMONODES: NodeModel[] = [
     icon: null,
     hasList: false,
     isGroup: true,
-    groupIsCollapsed: false
+    groupIsCollapsed: false,
+    isSubject: false
   }
 
 ];
