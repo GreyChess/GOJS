@@ -12,16 +12,22 @@ export const DEMONODES: NodeModel[] = [
       {type: 'Parent', target: '5'},
     ],
     hasList: false,
-    isSubject: true
+    isSubject: true,
+    leftExpandable: true,
+    rightExpandable: true,
+    category: "SubjectNode"
   },
   {
     key: '2',
     contentType: 'b',
     text: 'node002',
     icon: null,
-    to: [{type: "Parent", target: "7", toPort: "ColumnGg"}],
+    to: [{type: 'Parent', target: '7', toPort: 'ColumnGg'}],
     hasList: false,
-    isSubject: false
+    isSubject: false,
+    leftExpandable: false,
+    rightExpandable: true,
+    category: "RightSideNode"
   },
   {
     key: '3',
@@ -30,8 +36,11 @@ export const DEMONODES: NodeModel[] = [
     icon: null,
     group: '5',
     hasList: false,
-    to: [{type: "Parent", target: "2"}],
-    isSubject: false
+    to: [{type: 'Parent', target: '2'}],
+    isSubject: false,
+    leftExpandable: false,
+    rightExpandable: true,
+    category: "RightSideNode"
   },
   {
     key: '4',
@@ -43,26 +52,34 @@ export const DEMONODES: NodeModel[] = [
     hasList: false,
     isGroup: true,
     groupIsCollapsed: false,
-    isSubject: false
+    isSubject: false,
+    leftExpandable: false,
+    rightExpandable: true,
+    category: "RightSideNode"
   },
   {
     key: '5',
     contentType: 'e',
     text: 'Group005',
     icon: null,
-    to: [{type: 'Synonymous', target: '6'}],
     isGroup: true,
     hasList: false,
     groupIsCollapsed: false,
-    isSubject: false
+    isSubject: false,
+    leftExpandable: false,
+    rightExpandable: true,
+    category: "RightSideNode"
   },
   {
     key: '6',
     contentType: 'f',
     text: 'node006',
     icon: null,
+    to: [{type: 'Synonymous', target: '1'}],
     hasList: false,
-    isSubject: false
+    isSubject: false,
+    leftExpandable: true,
+    category: "LeftSideNode",
   },
   {
     key: '7',
@@ -71,25 +88,28 @@ export const DEMONODES: NodeModel[] = [
     icon: null,
     items:
       [
-        { text: "ColumnAa", value: 1 },
-        { text: "ColumnBb", value: 2 },
-        { text: "ColumnCc", value: 3 },
-        { text: "ColumnDd", value: 4 },
-        { text: "ColumnEe", value: 5 },
-        { text: "ColumnFf", value: 6 },
-        { text: "ColumnGg", value: 7 },
-        { text: "ColumnHh", value: 8 },
-        { text: "ColumnIi", value: 9 },
-        { text: "ColumnJj", value: 10 },
-        { text: "ColumnKk", value: 11 },
-        { text: "ColumnLl", value: 12 },
-        { text: "ColumnMm", value: 13 },
-        { text: "ColumnNn", value: 14 }
+        {text: 'ColumnAa', value: 1},
+        {text: 'ColumnBb', value: 2},
+        {text: 'ColumnCc', value: 3},
+        {text: 'ColumnDd', value: 4},
+        {text: 'ColumnEe', value: 5},
+        {text: 'ColumnFf', value: 6},
+        {text: 'ColumnGg', value: 7},
+        {text: 'ColumnHh', value: 8},
+        {text: 'ColumnIi', value: 9},
+        {text: 'ColumnJj', value: 10},
+        {text: 'ColumnKk', value: 11},
+        {text: 'ColumnLl', value: 12},
+        {text: 'ColumnMm', value: 13},
+        {text: 'ColumnNn', value: 14}
       ],
     isGroup: false,
-    group: "10",
+    group: '10',
     hasList: true,
-    isSubject: false
+    isSubject: false,
+    leftExpandable: false,
+    rightExpandable: true,
+    category: "RightSideNode"
   },
   {
     key: '8',
@@ -97,9 +117,12 @@ export const DEMONODES: NodeModel[] = [
     text: 'node008',
     icon: null,
     hasList: false,
-    group: "4",
+    group: '4',
     to: [{type: 'Synonymous', target: '9'}],
-    isSubject: false
+    isSubject: false,
+    leftExpandable: false,
+    rightExpandable: true,
+    category: "RightSideNode"
   },
   {
     key: '9',
@@ -107,8 +130,11 @@ export const DEMONODES: NodeModel[] = [
     text: 'node009',
     icon: null,
     hasList: false,
-    group: "4",
-    isSubject: false
+    group: '4',
+    isSubject: false,
+    leftExpandable: false,
+    rightExpandable: true,
+    category: "RightSideNode"
   },
   {
     key: '10',
@@ -118,7 +144,10 @@ export const DEMONODES: NodeModel[] = [
     hasList: false,
     isGroup: true,
     groupIsCollapsed: false,
-    isSubject: false
+    isSubject: false,
+    leftExpandable: false,
+    rightExpandable: true,
+    category: "RightSideNode"
   }
 
 ];

@@ -29,6 +29,38 @@ export class CustomShape {
       fig.add(new go.PathSegment(go.PathSegment.Line, 0, 0).close());
 
       return geo;
+    });
+
+    go.Shape.defineFigureGenerator("ImpactGroupNodeExpandBtnUp", function(shape, width, height){
+      let geo = new go.Geometry();
+      let fig = new go.PathFigure(0, 0, false);
+      geo.add(fig);
+
+      fig.add(new go.PathSegment(go.PathSegment.Move, 0, height / 2));
+      fig.add(new go.PathSegment(go.PathSegment.Line,width / 2, 0));
+      fig.add(new go.PathSegment(go.PathSegment.Line, width,height / 2));
+
+      fig.add(new go.PathSegment(go.PathSegment.Move, 0, height));
+      fig.add(new go.PathSegment(go.PathSegment.Line, width / 2, height / 2));
+      fig.add(new go.PathSegment(go.PathSegment.Line, width, height));
+
+      return geo;
+    });
+
+    go.Shape.defineFigureGenerator("ImpactGroupNodeExpandBtnDown", function(shape, width, height){
+      let geo = new go.Geometry();
+      let fig = new go.PathFigure(0, 0, false);
+      geo.add(fig);
+
+      fig.add(new go.PathSegment(go.PathSegment.Move, 0, 0));
+      fig.add(new go.PathSegment(go.PathSegment.Line,width / 2, height / 2));
+      fig.add(new go.PathSegment(go.PathSegment.Line, width,0));
+
+      fig.add(new go.PathSegment(go.PathSegment.Move, 0, height / 2));
+      fig.add(new go.PathSegment(go.PathSegment.Line, width / 2, height));
+      fig.add(new go.PathSegment(go.PathSegment.Line, width, height / 2));
+
+      return geo;
     })
   }
 }

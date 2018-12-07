@@ -8,6 +8,12 @@ const goMaker = go.GraphObject.make;
 const goBinding = go.Binding;
 let mockIconSvg = 'M 9 6 h 2 V 5 h 3 v 3 h -3 V 7 H 9 v 0.643 L 11.593 10 H 14 v 3 h -3 v -2.188 L 7.907 8 H 6.093 L 3 10.812 V 13 H 0 v -3 h 2.407 L 5 7.643 V 7 H 3 v 1 H 0 V 5 h 3 v 1 h 2 v -0.643 L 2.407 3 H 0 V 0 h 3 v 2.188 L 6.093 5 h 1.814 L 11 2.188 V 0 h 3 v 3 h -2.407 L 9 5.357 V 6 Z';
 
+enum NormalNode {
+  WITH_LEFT_EXPANDBTN = 1,
+  WITH_RIGHT_EXPANDBTN = 2,
+  WITH_LEFT_RIGHT_EXPANDBTN = 3,
+}
+
 export class NodeTemplateInImpact {
 
   constructor() {
@@ -41,14 +47,21 @@ export class NodeTemplateInImpact {
           //   return !groupIsCollapsed ? "red" : "#565656";
           // })
         ),
-        goMaker(go.Panel, 'Horizontal', {
+        goMaker(go.Panel, "Auto", {
             alignment: go.Spot.TopLeft,
-            desiredSize: new go.Size(140, 29),
-            background: 'rgba(0,0,0,0)'
+            background: 'rgba(0,0,0,0)',
+            portId: ''
           },
+          goMaker(go.Shape,
+            {
+              desiredSize: new go.Size(140, 29),
+              fill:"rgba(0,0,0,0)",
+              strokeWidth: 0
+            }
+          ),
           self.getIconContainer(go.Spot.Left, new go.Margin(0, 0, 0, 10)),
-          self.getTextBlock(go.Spot.Left, new go.Margin(0, 0, 0, 5)),
-          self.getGroupExpandButton(go.Spot.Right)
+          self.getTextBlock(go.Spot.Left, new go.Margin(0, 0, 0, 30)),
+          self.getGroupExpandButton(go.Spot.Right, new go.Margin(0,5,0,0))
         ),
         goMaker(go.Placeholder,
           {
@@ -65,8 +78,34 @@ export class NodeTemplateInImpact {
     );
   }
 
-  getNodeTemplate() {
+  getNodeTemplateMap(): go.Map<string, go.Node> {
+    let templateMap: go.Map<string, go.Node> = new go.Map<string, go.Node>();
+    templateMap.add('SubjectNode', this.getNodeTemplate(NormalNode.WITH_LEFT_RIGHT_EXPANDBTN));
+    templateMap.add('RightSideNode', this.getNodeTemplate(NormalNode.WITH_RIGHT_EXPANDBTN));
+    templateMap.add('LeftSideNode', this.getNodeTemplate(NormalNode.WITH_LEFT_EXPANDBTN));
+    return templateMap;
+  }
+
+  getNodeTemplate(normalNodeType: NormalNode) {
     const self = this;
+    let extendButtonGroup = [];
+    let leftMargin = 0,
+      rightMargin = 0;
+    switch (normalNodeType) {
+      case NormalNode.WITH_LEFT_EXPANDBTN :
+        extendButtonGroup = [self.getNormalExpandButton(go.Spot.Left)];
+        leftMargin = 7;
+        break;
+      case NormalNode.WITH_RIGHT_EXPANDBTN :
+        extendButtonGroup = [self.getNormalExpandButton(go.Spot.Right)];
+        rightMargin = 7;
+        break;
+      case NormalNode.WITH_LEFT_RIGHT_EXPANDBTN :
+        extendButtonGroup = [self.getNormalExpandButton(go.Spot.Left), self.getNormalExpandButton(go.Spot.Right)];
+        leftMargin = rightMargin = 7;
+        break;
+    }
+
     return goMaker(go.Node,
       'Auto', {
         // selectionAdornmentTemplate: goMaker(go.Adornment, 'Auto', {
@@ -83,7 +122,7 @@ export class NodeTemplateInImpact {
           'Rectangle', {
             stroke: '#005961',
             strokeWidth: 5,
-            margin: new go.Margin(0, 7, 0, 7)
+            margin: new go.Margin(0, rightMargin, 0, leftMargin)
           },
           new goBinding('stroke', 'isSubject', function (isSubject) {
             return isSubject ? '#565656' : '#AEAA95';
@@ -113,8 +152,7 @@ export class NodeTemplateInImpact {
           goMaker(go.Panel, self.getTableContainer())
         )
       ),
-      self.getNormalExpandButton(go.Spot.Left),
-      self.getNormalExpandButton(go.Spot.Right)
+      extendButtonGroup
     );
   }
 
@@ -152,21 +190,33 @@ export class NodeTemplateInImpact {
   }
 
   private getGroupExpandButton(alignment, margin: go.Margin = new go.Margin(0, 0, 0, 0)) {
-    return goMaker(go.Shape, {
-        alignment: alignment,
-        desiredSize: new go.Size(13, 13),
-        stroke: 'black',
-        figure: 'LogicAnd',
-        margin: margin,
+    let desiredWidth = 6;
+    let desiredHeight = 8;
+    return goMaker(go.Panel, {alignment: alignment},
+      goMaker(go.Shape, {
+          alignment: alignment,
+          desiredSize: new go.Size(desiredWidth, desiredHeight),
+          stroke: 'black',
+          margin: margin
+        },
+        new goBinding('figure', 'groupIsCollapsed', function (showContent) {
+          return showContent ? 'ImpactGroupNodeExpandBtnUp' : 'ImpactGroupNodeExpandBtnDown';
+        }),
+        new goBinding('stroke', 'isSubject', function (isSubject) {
+          return isSubject ? '#45888f' : '#AAA48C';
+        })
+      ),
+      goMaker(go.Shape, {
+        figure: 'Rectangle',
+        desiredSize: new go.Size(desiredWidth + 1, desiredHeight + 1),
+        fill: 'rgba(0,0,0,0)',
+        strokeWidth: 0,
         click: function (targetEvent) {
           let preIsSubGraphExpanded = targetEvent.targetObject.part.isSubGraphExpanded;
           targetEvent.targetObject.part.isSubGraphExpanded = !preIsSubGraphExpanded;
           targetEvent.targetObject.part.data.groupIsCollapsed = !targetEvent.targetObject.part.data.groupIsCollapsed;
           targetEvent.targetObject.part.updateTargetBindings('groupIsCollapsed');
-        },
-      },
-      new goBinding('figure', 'groupIsCollapsed', function (showContent) {
-        return showContent ? 'LogicOr' : 'LogicAnd';
+        }
       })
     );
   }
@@ -198,10 +248,12 @@ export class NodeTemplateInImpact {
   }
 
   private getNormalExpandButton(alignment) {
+    let expandable = alignment == go.Spot.Right ? 'rightExpandable' : 'leftExpandable';
     return goMaker(go.Panel,
       {
         alignment: alignment
       },
+      new goBinding('visible', expandable),
       goMaker(go.Shape, {
         figure: 'Circle',
         strokeWidth: 1,

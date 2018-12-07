@@ -12,4 +12,7 @@ export class NodeModel {
   hasList?: any;
   groupIsCollapsed?: boolean;
   isSubject?: boolean;
+  leftExpandable?: boolean;
+  rightExpandable?: boolean;
+  category: string;
 }

@@ -138,7 +138,8 @@ export class NzDemoLayoutCustomTriggerComponent implements OnInit {
         linkDataArray: self.demoRelationshipArray
       });
     // self.goDiagram.nodeTemplateMap = new NodeTemplates().getNodeTemplateMap();
-    self.goDiagram.nodeTemplate = self.nodeTemplateInImpact.getNodeTemplate();
+    // self.goDiagram.nodeTemplate = self.nodeTemplateInImpact.getNodeTemplate();
+    self.goDiagram.nodeTemplateMap = self.nodeTemplateInImpact.getNodeTemplateMap();
     self.goDiagram.groupTemplate = self.nodeTemplateInImpact.getGroupNodeTemplate();
     self.goDiagram.linkTemplate = new LinkTemplates().getLinkTempLate();
     self.goDiagram.toolManager.clickSelectingTool.doMouseUp = function () {
